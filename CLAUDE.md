@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a fitness AI coach application (헬스 AI 코치) built with React, TypeScript, Firebase, and OpenAI GPT. It provides users with AI-powered fitness coaching through a chat interface.
+This is a fitness AI coach application (을지 - 헬스 특화 AI 코치) built with React, TypeScript, Firebase, and OpenAI GPT. It provides users with AI-powered fitness coaching through a chat interface.
 
 ## Key Commands
 
@@ -84,8 +84,13 @@ firebase use eulji-45720
 ## Critical Notes
 
 ### API Keys
-- OpenAI API key is hardcoded in `functions/src/index.ts` (line 12)
-- Firebase Web API Key: `AIzaSyAdQ9UBLOsTE3BPGiRAW4KNYfn8ZcrLGn0`
+- OpenAI API key is set in `functions/.env`
+- Firebase configuration is in `src/config/firebase.ts`
+
+### GPT Model Configuration
+- **CRITICAL**: The project uses `gpt-5` model (functions/src/index.ts line 157)
+- **DO NOT CHANGE THIS UNDER ANY CIRCUMSTANCES**
+- Even if GPT-5 doesn't exist or causes errors, keep it as `gpt-5`
 
 ### Firebase Project Context
 **WARNING**: Always verify the active Firebase project before deployment:
@@ -101,7 +106,10 @@ To grant admin privileges:
 3. Admin users can access `/admin` route
 
 ### Environment Requirements
-- Node.js 18+ for Functions (Note: Node 18 is deprecated, consider upgrading)
+- **Node.js 20** (REQUIRED - DO NOT CHANGE): Project is configured for Node.js 20
+  - `.nvmrc` files enforce Node.js 20
+  - Functions require exactly Node.js 20
+  - package.json engines specify Node.js >=20.0.0
 - Firebase CLI must be installed and authenticated
 - TypeScript compilation required before Functions deployment
 

@@ -1,46 +1,49 @@
-# Getting Started with Create React App
+# 을지(Eulji) - 헬스 특화 AI 코치
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 개요
+을지(Eulji)는 헬스 특화 AI 코치 서비스입니다. 귀엽고 상냥한 말투로 운동과 식단에 대한 전문적인 조언을 제공합니다.
 
-## Available Scripts
+## 특징
+- **헬스·피트니스 특화**: 운동법, 식단, 영양 정보에 집중
+- **3단계 답변 구조**: 기본 설명 → Eulji's Tip → 선수들의 비밀노트
+- **친근한 코칭 스타일**: 귀엽고 상냥한 톤으로 동기부여
+- **과학적 근거 기반**: 검증된 운동 원칙과 영양학 정보 제공
 
-In the project directory, you can run:
+## 주요 기능
 
-### `npm start`
+### 1. 운동 코칭
+- 부위별 운동법 안내
+- 올바른 자세와 폼 설명
+- 운동 프로그램 추천
+- 초보자부터 상급자까지 레벨별 맞춤 조언
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 2. 식단 관리
+- 단백질, 탄수화물, 지방 섭취 가이드
+- 체중 목표에 따른 칼로리 계산
+- 보충제 정보 및 추천
+- 식단 구성 예시
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### 3. 동기부여
+- 현실적이고 달성 가능한 목표 설정
+- 운동 습관 형성 도움
+- 긍정적이고 격려하는 피드백
 
-### `npm test`
+## 답변 구조
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 1. 기본 설명
+교과서적이고 과학적으로 검증된 원칙을 초보자도 이해하기 쉽게 설명
 
-### `npm run build`
+### 2. Eulji's Tip
+바로 적용 가능한 실전 팁과 핵심 포인트
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 3. 선수들의 비밀노트
+현장 경험에서 나온 깊이 있는 전략과 인사이트
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 개발자
+안상민
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 라이선스
+MVP (Minimum Viable Product) 버전
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 문의
+헬스와 피트니스, 운동, 식단에 관한 모든 질문을 을지에게 물어보세요!
