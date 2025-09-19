@@ -53,6 +53,9 @@ const Login: React.FC = () => {
             <Typography component="h1" variant="h4" sx={{ fontFamily: "'Asta Sans', sans-serif" }}>
               을지
             </Typography>
+            <Typography variant="body1" color="text.secondary" sx={{ mt: 1, fontFamily: "'Asta Sans', sans-serif" }}>
+              헬스 특화 AI 코치
+            </Typography>
             <Typography component="h2" variant="h6" sx={{ mt: 2, fontFamily: "'Asta Sans', sans-serif" }}>
               로그인
             </Typography>

@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# 관리자 설정 스크립트
+# 사용법: ./scripts/setAdmin.sh admin@ycse.kr
+
+EMAIL=${1:-admin@ycse.kr}
+
+echo "╔══════════════════════════════════════════╗"
+echo "║       Firebase 관리자 설정 가이드         ║"
+echo "╚══════════════════════════════════════════╝"
+echo ""
+echo "대상 이메일: $EMAIL"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "Firebase Console에서 직접 설정하는 방법:"
+echo ""
+echo "1. Firebase Console 접속"
+echo "   https://console.firebase.google.com/project/eulji-45720/firestore/data/~2Fadmins"
+echo ""
+echo "2. Authentication 탭에서 사용자 UID 확인"
+echo "   https://console.firebase.google.com/project/eulji-45720/authentication/users"
+echo "   - $EMAIL 찾기"
+echo "   - UID 복사 (예: xABC123def456...)"
+echo ""
+echo "3. Firestore Database > admins 컬렉션"
+echo "   - '+ 문서 추가' 클릭"
+echo "   - 문서 ID: [복사한 UID 붙여넣기]"
+echo "   - 필드 추가:"
+echo "     • email (string): $EMAIL"
+echo "     • role (string): admin"
+echo "     • addedAt (timestamp): 서버 타임스탬프"
+echo ""
+echo "4. 저장 후 앱 새로고침"
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "또는 Functions가 배포된 경우 curl 명령 사용:"
+echo ""
+echo "curl -X POST https://asia-northeast3-eulji-45720.cloudfunctions.net/makeUserAdmin \\"
+echo "  -H 'Content-Type: application/json' \\"
+echo "  -d '{\"email\": \"$EMAIL\", \"secretKey\": \"eulji-admin-setup-2024\"}'"
+echo ""

@@ -1,6 +1,5 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import OpenAI from 'openai';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
 
@@ -13,11 +12,8 @@ admin.initializeApp();
 
 const corsHandler = cors({ origin: true });
 
-// Initialize OpenAI - API key should be set via Firebase environment config or secrets
-// Run: firebase functions:secrets:set OPENAI_API_KEY
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || 'your-api-key-here',
-});
+// OpenAI API key for direct API calls
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY || 'your-api-key-here';
 
 export const generateResponse = functions
   .region('asia-northeast3')
@@ -36,6 +32,39 @@ export const generateResponse = functions
     }
 
     try {
+      // 일일 질문 제한 체크
+      const userStatsRef = admin.firestore()
+        .collection('userStats')
+        .doc(userId);
+
+      const now = new Date();
+      const kstDate = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Seoul"}));
+      const today = `${kstDate.getFullYear()}-${(kstDate.getMonth() + 1).toString().padStart(2, '0')}-${kstDate.getDate().toString().padStart(2, '0')}`;
+
+      const userStatsDoc = await userStatsRef.get();
+      let questionCount = 0;
+      let lastQuestionDate = '';
+
+      if (userStatsDoc.exists) {
+        const data = userStatsDoc.data();
+        lastQuestionDate = data?.lastQuestionDate || '';
+        questionCount = data?.dailyQuestionCount || 0;
+
+        // 날짜가 바뀌었으면 카운트 리셋
+        if (lastQuestionDate !== today) {
+          questionCount = 0;
+        }
+      }
+
+      // 100개 이상이면 차단
+      if (questionCount >= 100) {
+        res.status(429).json({
+          error: '일 대화한도 100회를 소진하였습니다. 내일 다시 만나요',
+          isLimitReached: true
+        });
+        return;
+      }
+
       const conversationRef = admin.firestore()
         .collection('conversations')
         .doc(userId);
@@ -145,22 +174,35 @@ export const generateResponse = functions
 ## 5. 긴급 대응 (버벅임/오류 시)
 "을지가 지금 살짝 버벅였네요. 다시 물어봐 주시면 더 정확히 알려드릴게요."`;
 
-      const openaiMessages = [
-        { role: 'system' as const, content: systemPrompt },
-        ...messages.slice(-10).map(msg => ({
-          role: msg.role as 'user' | 'assistant',
-          content: msg.content
-        }))
-      ];
+      // 대화 컨텍스트 구성
+      const conversationContext = messages.slice(-10).map(msg =>
+        `${msg.role === 'user' ? '사용자' : '을지'}: ${msg.content}`
+      ).join('\n\n');
 
-      const completion = await openai.chat.completions.create({
-        model: 'gpt-5',  // GPT-5 모델 사용 (절대 변경 금지)
-        messages: openaiMessages,
-        temperature: 0.8,
-        max_tokens: 1000,
+      const fullInput = `${systemPrompt}\n\n=== 이전 대화 ===\n${conversationContext}\n\n=== 현재 질문 ===\n사용자: ${message}`;
+
+      // GPT-5 responses API 직접 호출
+      const response = await fetch('https://api.openai.com/v1/responses', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${OPENAI_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: 'gpt-5',  // GPT-5 모델 사용 (절대 변경 금지)
+          input: fullInput,
+          reasoning: { effort: 'low' },  // 빠른 응답을 위해 low 설정
+          text: { verbosity: 'medium' }   // 적절한 길이의 답변
+        })
       });
 
-      const aiResponse = completion.choices[0].message.content || '죄송합니다. 응답을 생성할 수 없습니다.';
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw errorData;
+      }
+
+      const result = await response.json();
+      const aiResponse = result.output_text || '죄송합니다. 응답을 생성할 수 없습니다.';
 
       messages.push({
         role: 'assistant',
@@ -174,10 +216,33 @@ export const generateResponse = functions
         lastUpdated: admin.firestore.FieldValue.serverTimestamp(),
       }, { merge: true });
 
+      // 질문 카운트 증가
+      await userStatsRef.set({
+        userId,
+        lastQuestionDate: today,
+        dailyQuestionCount: questionCount + 1,
+        lastUpdated: admin.firestore.FieldValue.serverTimestamp(),
+      }, { merge: true });
+
       res.json({ response: aiResponse });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error generating response:', error);
-      res.status(500).json({ error: 'Internal server error' });
+
+      // OpenAI API 에러 처리
+      if (error?.error?.code === 'insufficient_quota' || error?.code === 'insufficient_quota') {
+        res.status(503).json({
+          error: 'OpenAI API 쿼터가 초과되었습니다. 잠시 후 다시 시도해주세요.',
+          isQuotaError: true
+        });
+      } else if (error?.error?.code === 'model_not_found' || error?.code === 'model_not_found') {
+        // GPT-5 모델이 없을 경우에도 사용자가 지시한 대로 gpt-5 유지
+        res.status(503).json({
+          error: '모델을 사용할 수 없습니다. 잠시 후 다시 시도해주세요.',
+          isModelError: true
+        });
+      } else {
+        res.status(500).json({ error: 'Internal server error' });
+      }
     }
   });
 });

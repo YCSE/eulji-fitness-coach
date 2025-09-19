@@ -18,6 +18,9 @@ npm run build
 
 # Run tests
 npm test
+
+# Run type checking (no built-in command, use tsc directly)
+npx tsc --noEmit
 ```
 
 ### Firebase Functions
@@ -33,6 +36,9 @@ npm run serve
 
 # Deploy only functions
 npm run deploy
+
+# View function logs
+firebase functions:log -n 20
 ```
 
 ### Firebase Deployment
@@ -63,13 +69,14 @@ firebase use eulji-45720
   - `/admin` - Admin panel (protected, admin only)
 
 ### Backend Structure
-- **Firebase Functions** (Node.js 18) in `/functions` directory
-  - `generateResponse` - Handles chat requests with OpenAI GPT
+- **Firebase Functions** (Node.js 20) in `/functions` directory
+  - `generateResponse` - Handles chat requests with OpenAI GPT-5 responses API
   - `deleteUser` - Admin endpoint for user deletion
 - **Firestore** collections:
   - `users` - User profiles
   - `conversations` - Chat history per user
   - `admins` - Admin user IDs
+  - `userStats` - Daily question counts for rate limiting
 
 ### Firebase Configuration
 - Project ID: `eulji-45720`
@@ -83,14 +90,23 @@ firebase use eulji-45720
 
 ## Critical Notes
 
-### API Keys
+### API Configuration
 - OpenAI API key is set in `functions/.env`
 - Firebase configuration is in `src/config/firebase.ts`
 
-### GPT Model Configuration
-- **CRITICAL**: The project uses `gpt-5` model (functions/src/index.ts line 157)
-- **DO NOT CHANGE THIS UNDER ANY CIRCUMSTANCES**
-- Even if GPT-5 doesn't exist or causes errors, keep it as `gpt-5`
+### OpenAI Integration
+- **Model**: Uses `gpt-5` via OpenAI's `/v1/responses` endpoint
+- **API Structure**: Direct fetch calls to `https://api.openai.com/v1/responses`
+- **Parameters**:
+  - `reasoning: { effort: 'low' }` for faster responses
+  - `text: { verbosity: 'medium' }` for balanced answer length
+- **CRITICAL**: Model is hardcoded as `gpt-5` (line 192 in functions/src/index.ts) - DO NOT CHANGE
+- **Response Field**: Uses `result.output_text` from the API response
+
+### Daily Rate Limiting
+- Users are limited to 100 questions per day (KST timezone)
+- Tracked via `userStats` collection in Firestore
+- Resets daily at midnight KST
 
 ### Firebase Project Context
 **WARNING**: Always verify the active Firebase project before deployment:
@@ -118,6 +134,14 @@ To grant admin privileges:
 2. Build Functions: `cd functions && npm run build`
 3. Build React app: `npm run build`
 4. Deploy: `firebase deploy`
+
+## System Prompt Context
+The "을지(Eulji)" character has a structured 3-stage response format:
+1. **기본 설명**: Scientific, textbook-style explanation
+2. **Eulji's Tip**: Practical, immediately applicable tips
+3. **선수들의 비밀노트**: Deep insights from field experience
+
+Only responds to fitness, exercise, nutrition, and diet questions. All other topics are politely declined.
 
 ## Font Requirement
 All UI text must use the "Asta Sans" Google Font, which is loaded in `public/index.html`.

@@ -74,6 +74,17 @@ const Chat: React.FC = () => {
 
       const data = await response.json();
 
+      // 일일 제한 도달 체크
+      if (data.isLimitReached) {
+        const limitMessage: Message = {
+          role: 'assistant',
+          content: data.error,
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev, limitMessage]);
+        return;
+      }
+
       const assistantMessage: Message = {
         role: 'assistant',
         content: data.response || data.error || '응답을 받을 수 없습니다.',
