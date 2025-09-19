@@ -81,7 +81,7 @@ export const generateResponse = functions
       messages.push({
         role: 'user',
         content: message,
-        timestamp: admin.firestore.FieldValue.serverTimestamp(),
+        timestamp: new Date().toISOString(),
       });
 
       const systemPrompt = `# 을지(Eulji) - 헬스 특화 AI 코치
@@ -189,7 +189,7 @@ export const generateResponse = functions
           'Authorization': `Bearer ${OPENAI_API_KEY}`
         },
         body: JSON.stringify({
-          model: 'gpt-5',  // GPT-5 모델 사용 (절대 변경 금지)
+          model: 'gpt-5-mini',  // GPT-5 모델 사용 (절대 변경 금지)
           input: fullInput,
           reasoning: { effort: 'low' },  // 빠른 응답을 위해 low 설정
           text: { verbosity: 'medium' }   // 적절한 길이의 답변
@@ -202,12 +202,12 @@ export const generateResponse = functions
       }
 
       const result = await response.json();
-      const aiResponse = result.output_text || '죄송합니다. 응답을 생성할 수 없습니다.';
+      const aiResponse = result.output?.[1]?.content?.[0]?.text || '죄송합니다. 응답을 생성할 수 없습니다.';
 
       messages.push({
         role: 'assistant',
         content: aiResponse,
-        timestamp: admin.firestore.FieldValue.serverTimestamp(),
+        timestamp: new Date().toISOString(),
       });
 
       await conversationRef.set({

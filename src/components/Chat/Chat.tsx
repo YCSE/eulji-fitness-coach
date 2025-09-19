@@ -192,10 +192,15 @@ const Chat: React.FC = () => {
                     mb: 2
                   }}
                 >
-                  <Box sx={{ display: 'flex', alignItems: 'flex-start', maxWidth: '70%' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'flex-start', maxWidth: { xs: '90%', sm: '80%', md: '70%' } }}>
                     {message.role === 'assistant' && (
-                      <Avatar sx={{ bgcolor: '#2d2d2d', mr: 1, border: '1px solid #3a3a3a' }}>
-                        <FitnessCenter sx={{ color: '#d4af37' }} />
+                      <Avatar sx={{ bgcolor: '#2d2d2d', mr: 1, border: '1px solid #3a3a3a', p: 0.5 }}>
+                        <Box
+                          component="img"
+                          src="/fav.png"
+                          alt="을지"
+                          sx={{ width: 30, height: 30 }}
+                        />
                       </Avatar>
                     )}
                     <Paper
@@ -222,8 +227,13 @@ const Chat: React.FC = () => {
             {loading && (
               <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Avatar sx={{ bgcolor: '#2d2d2d', mr: 1, border: '1px solid #3a3a3a' }}>
-                    <FitnessCenter sx={{ color: '#d4af37' }} />
+                  <Avatar sx={{ bgcolor: '#2d2d2d', mr: 1, border: '1px solid #3a3a3a', p: 0.5 }}>
+                    <Box
+                      component="img"
+                      src="/fav.png"
+                      alt="을지"
+                      sx={{ width: 30, height: 30 }}
+                    />
                   </Avatar>
                   <Paper sx={{ p: 2, backgroundColor: '#2d2d2d' }}>
                     <CircularProgress size={20} sx={{ color: '#d4af37' }} />

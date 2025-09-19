@@ -85,9 +85,9 @@ const Signup: React.FC = () => {
               onChange={(e) => setName(e.target.value)}
               sx={{
                 '& label': { fontFamily: "'Asta Sans', sans-serif", color: '#b0b0b0' },
-                '& .MuiInputBase-input': { color: '#ffffff' },
+                '& .MuiInputBase-input': { color: '#ffffff', backgroundColor: '#3a3a3a', borderRadius: 1 },
                 '& .MuiOutlinedInput-root': {
-                  '& fieldset': { borderColor: '#3a3a3a' },
+                  '& fieldset': { borderColor: '#4a4a4a' },
                   '&:hover fieldset': { borderColor: '#d4af37' },
                   '&.Mui-focused fieldset': { borderColor: '#d4af37' }
                 }
@@ -105,9 +105,9 @@ const Signup: React.FC = () => {
               onChange={(e) => setEmail(e.target.value)}
               sx={{
                 '& label': { fontFamily: "'Asta Sans', sans-serif", color: '#b0b0b0' },
-                '& .MuiInputBase-input': { color: '#ffffff' },
+                '& .MuiInputBase-input': { color: '#ffffff', backgroundColor: '#3a3a3a', borderRadius: 1 },
                 '& .MuiOutlinedInput-root': {
-                  '& fieldset': { borderColor: '#3a3a3a' },
+                  '& fieldset': { borderColor: '#4a4a4a' },
                   '&:hover fieldset': { borderColor: '#d4af37' },
                   '&.Mui-focused fieldset': { borderColor: '#d4af37' }
                 }
@@ -126,9 +126,9 @@ const Signup: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               sx={{
                 '& label': { fontFamily: "'Asta Sans', sans-serif", color: '#b0b0b0' },
-                '& .MuiInputBase-input': { color: '#ffffff' },
+                '& .MuiInputBase-input': { color: '#ffffff', backgroundColor: '#3a3a3a', borderRadius: 1 },
                 '& .MuiOutlinedInput-root': {
-                  '& fieldset': { borderColor: '#3a3a3a' },
+                  '& fieldset': { borderColor: '#4a4a4a' },
                   '&:hover fieldset': { borderColor: '#d4af37' },
                   '&.Mui-focused fieldset': { borderColor: '#d4af37' }
                 }
@@ -146,9 +146,9 @@ const Signup: React.FC = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
               sx={{
                 '& label': { fontFamily: "'Asta Sans', sans-serif", color: '#b0b0b0' },
-                '& .MuiInputBase-input': { color: '#ffffff' },
+                '& .MuiInputBase-input': { color: '#ffffff', backgroundColor: '#3a3a3a', borderRadius: 1 },
                 '& .MuiOutlinedInput-root': {
-                  '& fieldset': { borderColor: '#3a3a3a' },
+                  '& fieldset': { borderColor: '#4a4a4a' },
                   '&:hover fieldset': { borderColor: '#d4af37' },
                   '&.Mui-focused fieldset': { borderColor: '#d4af37' }
                 }
