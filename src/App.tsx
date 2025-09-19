@@ -12,12 +12,22 @@ import './App.css';
 
 const theme = createTheme({
   palette: {
+    mode: 'dark',
     primary: {
-      main: '#1976d2',
+      main: '#d4af37',
     },
     secondary: {
-      main: '#dc004e',
+      main: '#070707',
     },
+    background: {
+      default: '#1a1a1a',
+      paper: '#2a2a2a',
+    },
+    text: {
+      primary: '#ffffff',
+      secondary: '#b0b0b0',
+    },
+    divider: '#3a3a3a',
   },
   typography: {
     fontFamily: "'Asta Sans', sans-serif",

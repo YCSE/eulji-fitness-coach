@@ -37,7 +37,6 @@ import {
   Delete as DeleteIcon,
   Visibility as ViewIcon,
   ArrowBack,
-  FitnessCenter,
   Person
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
@@ -143,18 +142,22 @@ const AdminPanel: React.FC = () => {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', backgroundColor: '#f5f5f5' }}>
-      <AppBar position="static">
+    <Box sx={{ minHeight: '100vh', backgroundColor: '#1a1a1a' }}>
+      <AppBar position="static" sx={{ backgroundColor: '#070707' }}>
         <Toolbar>
-          <FitnessCenter sx={{ mr: 2 }} />
-          <Typography variant="h6" sx={{ flexGrow: 1, fontFamily: "'Asta Sans', sans-serif" }}>
+          <Box
+            component="img"
+            src="/eulji.png"
+            alt="을지"
+            sx={{ height: 40, mr: 2 }}
+          />
+          <Typography variant="h6" sx={{ flexGrow: 1, fontFamily: "'Asta Sans', sans-serif", color: '#d4af37' }}>
             관리자 페이지
           </Typography>
           <Button
-            color="inherit"
             startIcon={<ArrowBack />}
             onClick={() => navigate('/chat')}
-            sx={{ fontFamily: "'Asta Sans', sans-serif" }}
+            sx={{ fontFamily: "'Asta Sans', sans-serif", color: '#d4af37', '&:hover': { backgroundColor: 'rgba(212, 175, 55, 0.08)' } }}
           >
             채팅으로 돌아가기
           </Button>
@@ -162,8 +165,8 @@ const AdminPanel: React.FC = () => {
       </AppBar>
 
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        <Paper elevation={3} sx={{ p: 3 }}>
-          <Typography variant="h5" sx={{ mb: 3, fontFamily: "'Asta Sans', sans-serif" }}>
+        <Paper elevation={3} sx={{ p: 3, backgroundColor: '#2a2a2a' }}>
+          <Typography variant="h5" sx={{ mb: 3, fontFamily: "'Asta Sans', sans-serif", color: '#ffffff' }}>
             회원 관리
           </Typography>
 
@@ -172,42 +175,42 @@ const AdminPanel: React.FC = () => {
               <CircularProgress />
             </Box>
           ) : users.length === 0 ? (
-            <Alert severity="info">등록된 회원이 없습니다.</Alert>
+            <Alert severity="info" sx={{ backgroundColor: '#3a3a3a', color: '#ffffff' }}>등록된 회원이 없습니다.</Alert>
           ) : (
             <TableContainer>
               <Table>
                 <TableHead>
-                  <TableRow>
-                    <TableCell sx={{ fontFamily: "'Asta Sans', sans-serif", fontWeight: 'bold' }}>
+                  <TableRow sx={{ backgroundColor: '#070707' }}>
+                    <TableCell sx={{ fontFamily: "'Asta Sans', sans-serif", fontWeight: 'bold', color: '#d4af37' }}>
                       이름
                     </TableCell>
-                    <TableCell sx={{ fontFamily: "'Asta Sans', sans-serif", fontWeight: 'bold' }}>
+                    <TableCell sx={{ fontFamily: "'Asta Sans', sans-serif", fontWeight: 'bold', color: '#d4af37' }}>
                       이메일
                     </TableCell>
-                    <TableCell sx={{ fontFamily: "'Asta Sans', sans-serif", fontWeight: 'bold' }}>
+                    <TableCell sx={{ fontFamily: "'Asta Sans', sans-serif", fontWeight: 'bold', color: '#d4af37' }}>
                       가입일
                     </TableCell>
-                    <TableCell sx={{ fontFamily: "'Asta Sans', sans-serif", fontWeight: 'bold' }} align="center">
+                    <TableCell sx={{ fontFamily: "'Asta Sans', sans-serif", fontWeight: 'bold', color: '#d4af37' }} align="center">
                       작업
                     </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {users.map((user) => (
-                    <TableRow key={user.id}>
-                      <TableCell sx={{ fontFamily: "'Asta Sans', sans-serif" }}>
+                    <TableRow key={user.id} sx={{ '&:hover': { backgroundColor: '#3a3a3a' } }}>
+                      <TableCell sx={{ fontFamily: "'Asta Sans', sans-serif", color: '#ffffff' }}>
                         {user.name}
                       </TableCell>
-                      <TableCell sx={{ fontFamily: "'Asta Sans', sans-serif" }}>
+                      <TableCell sx={{ fontFamily: "'Asta Sans', sans-serif", color: '#ffffff' }}>
                         {user.email}
                       </TableCell>
-                      <TableCell sx={{ fontFamily: "'Asta Sans', sans-serif" }}>
+                      <TableCell sx={{ fontFamily: "'Asta Sans', sans-serif", color: '#ffffff' }}>
                         {new Date(user.createdAt).toLocaleDateString('ko-KR')}
                       </TableCell>
                       <TableCell align="center">
                         <IconButton
-                          color="primary"
                           onClick={() => handleViewConversations(user)}
+                          sx={{ color: '#d4af37' }}
                         >
                           <ViewIcon />
                         </IconButton>
@@ -270,7 +273,12 @@ const AdminPanel: React.FC = () => {
                         {message.role === 'user' ? (
                           <Person sx={{ mr: 1 }} />
                         ) : (
-                          <FitnessCenter sx={{ mr: 1 }} />
+                          <Box
+                            component="img"
+                            src="/eulji.png"
+                            alt="을지"
+                            sx={{ width: 24, height: 'auto', mr: 1 }}
+                          />
                         )}
                         <Typography
                           variant="subtitle2"
