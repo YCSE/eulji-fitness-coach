@@ -175,10 +175,10 @@ const Chat: React.FC = () => {
                   alt="을지"
                   sx={{ width: 100, height: 'auto', mb: 2 }}
                 />
-                <Typography variant="h5" sx={{ fontFamily: "'Asta Sans', sans-serif", color: '#ffffff' }}>
+                <Typography variant="h5" sx={{ fontFamily: "'Asta Sans', sans-serif", color: '#B0B0B0' }}>
                   을지에 오신 것을 환영합니다!
                 </Typography>
-                <Typography variant="body1" sx={{ mt: 2, fontFamily: "'Asta Sans', sans-serif", color: '#b0b0b0' }}>
+                <Typography variant="body1" sx={{ mt: 2, fontFamily: "'Asta Sans', sans-serif", color: '#B0B0B0' }}>
                   운동, 영양, 건강에 관한 질문을 해보세요.
                 </Typography>
               </Box>
@@ -194,7 +194,7 @@ const Chat: React.FC = () => {
                 >
                   <Box sx={{ display: 'flex', alignItems: 'flex-start', maxWidth: { xs: '90%', sm: '80%', md: '70%' } }}>
                     {message.role === 'assistant' && (
-                      <Avatar sx={{ bgcolor: '#2d2d2d', mr: 1, border: '1px solid #3a3a3a', p: 0.5 }}>
+                      <Avatar sx={{ bgcolor: '#1C1C1C', mr: 1, border: '1px solid #3a3a3a', p: 0.5 }}>
                         <Box
                           component="img"
                           src="/fav.png"
@@ -206,9 +206,12 @@ const Chat: React.FC = () => {
                     <Paper
                       sx={{
                         p: 2,
-                        backgroundColor: message.role === 'user' ? '#3d3520' : '#2d2d2d',
-                        color: message.role === 'user' ? '#d4af37' : '#e0e0e0',
-                        border: message.role === 'user' ? '1px solid #d4af3730' : 'none',
+                        backgroundColor: message.role === 'user' ? '#D4AF37' : '#2A2A2A',
+                        color: message.role === 'user' ? '#070707' : '#F2F2F2',
+                        border: 'none',
+                        '& strong': {
+                          fontWeight: 'bold'
+                        }
                       }}
                     >
                       <Typography sx={{ fontFamily: "'Asta Sans', sans-serif", whiteSpace: 'pre-wrap' }}>
@@ -216,8 +219,8 @@ const Chat: React.FC = () => {
                       </Typography>
                     </Paper>
                     {message.role === 'user' && (
-                      <Avatar sx={{ bgcolor: '#3d3520', ml: 1, border: '1px solid #d4af3750' }}>
-                        <Person sx={{ color: '#d4af37' }} />
+                      <Avatar sx={{ bgcolor: '#D4AF37', ml: 1 }}>
+                        <Person sx={{ color: '#070707' }} />
                       </Avatar>
                     )}
                   </Box>
